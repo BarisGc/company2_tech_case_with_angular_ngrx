@@ -1,0 +1,50 @@
+<button
+  type="button"
+  class="btn btn-warning"
+  data-bs-toggle="modal"
+  data-bs-target="#exampleModal2"
+  data-bs-whatever="@mdo"
+>
+  Edit User Info
+</button>
+
+<div
+  class="modal fade"
+  id="exampleModal2"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit User Info</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="userName" class="col-form-label">User Name :</label>
+            <input type="text" class="form-control" id="userName" />
+          </div>
+          <div class="mb-3">
+            <label for="userAge" class="col-form-label">Age :</label>
+            <input class="form-control" id="userAge" />
+          </div>
+          <div class="mb-3">
+            <label for="userJob" class="col-form-label">Job :</label>
+            <input class="form-control" id="userJob" />
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Update</button>
+      </div>
+    </div>
+  </div>
+</div>

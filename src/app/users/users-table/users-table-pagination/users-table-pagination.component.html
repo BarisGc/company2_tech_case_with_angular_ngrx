@@ -1,0 +1,36 @@
+<!-- Pagination -->
+<nav aria-label="Page navigation example">
+  <ul class="pagination pagination-sm justify-content-center">
+    <li class="page-item">
+      <a
+        class="page-link"
+        style="cursor: pointer"
+        aria-label="Previous"
+        (click)="handleUserCurrentPage(1)"
+      >
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <li
+      *ngFor="let pageEL of totalPagesArr; let index = index"
+      class="page-item {{ index + 1 === activePage ? 'active' : '' }}"
+    >
+      <a
+        class="page-link"
+        style="cursor: pointer"
+        (click)="handleUserCurrentPage(index + 1)"
+        >{{ index + 1 }}</a
+      >
+    </li>
+    <li class="page-item">
+      <a
+        class="page-link"
+        style="cursor: pointer"
+        aria-label="Next"
+        (click)="handleUserCurrentPage(tablePageLength)"
+      >
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>

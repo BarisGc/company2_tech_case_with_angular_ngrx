@@ -1,0 +1,56 @@
+<button
+  type="button"
+  class="btn btn-success"
+  data-bs-toggle="modal"
+  data-bs-target="#exampleModal1"
+  data-bs-whatever="@Add"
+>
+  Add New Course
+</button>
+
+<div
+  class="modal fade"
+  id="exampleModal1"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add New Course</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="newCourseName" class="col-form-label"
+              >Course Name :</label
+            >
+            <input type="text" class="form-control" id="newCourseName" />
+          </div>
+          <div class="mb-3">
+            <label for="measured_At" class="col-form-label"
+              >Measured_At :</label
+            >
+            <input class="form-control" id="measured_At" />
+          </div>
+          <div class="mb-3">
+            <label for="completed_At" class="col-form-label"
+              >Completed_At :</label
+            >
+            <input class="form-control" id="completed_At" />
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Save</button>
+      </div>
+    </div>
+  </div>
+</div>

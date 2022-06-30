@@ -1,0 +1,12 @@
+<button
+  class="btn"
+  [ngClass]="{ 'btn-warning': onlySomething, 'btn-success': !onlySomething }"
+  [ngStyle]="{ fontColor: !onlySomething ? 'white' : 'black' }"
+  (click)="onlySomething = !onlySomething"
+  #formStatusButton1
+>
+  {{ !onlySomething ? "Add New Course" : "Update User Info" }}
+</button>
+<button class="btn btn-info ms-2" (click)="onDoSomething1(formStatusButton1)">
+  Do Something1: {{ formStatusButton1.innerText }}
+</button>

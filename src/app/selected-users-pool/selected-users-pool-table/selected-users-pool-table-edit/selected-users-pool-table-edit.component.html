@@ -1,0 +1,80 @@
+<div class="row">
+  <div class="col-xs-12">
+    <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+      <div class="row">
+        <div class="col-sm-2 form-group">
+          <label class="ms-2 fw-bolder" for="userID">Id</label>
+          <input
+            type="number"
+            id="userID"
+            class="form-control"
+            name="userID"
+            ngModel
+            pattern="^[0-9]+[0-9]*$"
+            [required]="!editMode"
+            [readonly]="editMode"
+          />
+        </div>
+        <div class="col-sm-5 form-group">
+          <label class="ms-2 fw-bolder" for="userName">Name</label>
+          <input
+            type="text"
+            id="userName"
+            class="form-control"
+            name="userName"
+            ngModel
+            pattern="^[A-Za-z]{3,15}$"
+            [required]="
+              !editMode || (editMode && !editedItem?.userIsRegistered)
+            "
+            [readonly]="editMode && editedItem?.userIsRegistered"
+          />
+        </div>
+        <div class="col-sm-5 form-group">
+          <label class="ms-2 fw-bolder" for="userTeam">Team</label>
+          <input
+            type="text"
+            id="userTeam"
+            class="form-control"
+            name="userTeam"
+            ngModel
+            pattern="^[A-Za-z]{1,2}$"
+            required
+          />
+        </div>
+        <div class="d-none">
+          <label for="userIsRegistered">userIsRegistered</label>
+          <input
+            type="text"
+            id="userIsRegistered"
+            class="form-control"
+            name="userIsRegistered"
+            ngModel
+          />
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-xs-12">
+          <button class="btn btn-success" type="submit" [disabled]="!f.valid">
+            {{ editMode ? "Update" : "Add" }}
+          </button>
+          <button
+            class="btn btn-danger ms-2"
+            type="button"
+            (click)="onDelete()"
+            *ngIf="editMode"
+          >
+            Delete
+          </button>
+          <button
+            class="btn btn-primary ms-2"
+            type="button"
+            (click)="onClear()"
+          >
+            Clear
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

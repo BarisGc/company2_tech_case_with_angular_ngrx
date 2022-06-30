@@ -1,0 +1,40 @@
+<div class="col-8 offset-2">
+  <app-selected-users-pool-table-edit></app-selected-users-pool-table-edit>
+  <hr />
+  <table
+    class="table table-striped table-bordered table-hover table-sm"
+    id="usersTable"
+  >
+    <thead>
+      <tr>
+        <th class="text-center align-middle fs-6">ID</th>
+        <th class="text-center align-middle fs-6">Name</th>
+        <th class="text-center align-middle fs-6">Team</th>
+        <th class="text-center align-middle fs-6">isUserRegistered?</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        style="cursor: pointer"
+        *ngFor="
+          let selectedUser of (selectedUsers | async)!.selectedUsers;
+          let i = index
+        "
+        (click)="onEditItem(selectedUser.userID)"
+      >
+        <th class="text-center align-middle fs-6">
+          {{ selectedUser.userID }}
+        </th>
+        <th class="text-center align-middle fs-6">
+          {{ selectedUser.userName }}
+        </th>
+        <th class="text-center align-middle fs-6">
+          {{ selectedUser.userTeam }}
+        </th>
+        <th class="text-center align-middle fs-6">
+          {{ selectedUser.userIsRegistered }}
+        </th>
+      </tr>
+    </tbody>
+  </table>
+</div>

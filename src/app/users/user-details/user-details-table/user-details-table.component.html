@@ -1,0 +1,22 @@
+<div class="col-6 offset-3">
+  <!-- Display Users -->
+  <table
+    class="table table-striped table-bordered table-hover table-sm table-dark"
+    id="userDetailsTable"
+  >
+    <thead>
+      <tr>
+        <th class="text-center align-middle fs-6">Course Name</th>
+        <th class="text-center align-middle fs-6">Course Measured_At</th>
+        <th class="text-center align-middle fs-6">Course completed_At</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of userDetails?.userCourses">
+        <td class="text-center">{{ item.courseName }}</td>
+        <td class="text-center">{{ item.measuredAT }}</td>
+        <td class="text-center">{{ item.completedAT }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

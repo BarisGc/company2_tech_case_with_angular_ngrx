@@ -1,0 +1,49 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.css";
+
+/* General */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+body {
+  background-color: gainsboro;
+}
+
+.form-control, .btn {
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* TextFilterTopBar */
+.userPageLimit {
+  max-width: 10vh;
+}
+
+#userDataTable td a {
+  text-decoration: none;
+  color: black;
+}
+
+/* addCourseModal */
+.Modal-title {
+  color: gray
+}
+
+.addCourseModal .Modal-body {
+  overflow-y: hidden !important;
+}
+
+.error-message {
+  color: #FF6565;
+  padding: .5em .2em;
+  font-size: .8em;
+}

@@ -1,0 +1,77 @@
+<div class="row my-3 TextFilterTopBar">
+  <div class="col-12">
+    <!-- ButtonToolbar -->
+    <div
+      class="btn-toolbar mb-3 justify-content-center"
+      role="toolbar"
+      aria-label="Toolbar with button groups"
+    >
+      <!-- InputGroup -->
+      <div class="input-group mx-auto ms-md-0 me-md-2">
+        <div class="input-group-text searchIcon pb-2" id="basic-addon1">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Filter"
+          (input)="handleSearchName($event)"
+          [(ngModel)]="searchValue"
+        />
+        <input
+          type="number"
+          class="form-control text-center userPageLimit"
+          (input)="handleUserPageLimit($event)"
+          [(ngModel)]="userPageLimitValue"
+        />
+      </div>
+
+      <!-- ButtonGroup -->
+      <div
+        class="btn-group"
+        role="group"
+        aria-label="Button group with nested dropdown"
+      >
+        <div class="btn-group" role="group">
+          <button
+            id="btnGroupDrop1"
+            type="button"
+            class="btn btn-primary dropdown-toggle"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Status Filter
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+            <li>
+              <a
+                class="dropdown-item"
+                style="cursor: pointer"
+                (click)="handleUserStatusFilter('Active')"
+              >
+                Active Status</a
+              >
+            </li>
+            <li>
+              <a
+                class="dropdown-item"
+                style="cursor: pointer"
+                (click)="handleUserStatusFilter('Passive')"
+                >Passive Status</a
+              >
+            </li>
+          </ul>
+        </div>
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="handleClearFilters()"
+          BetterHighlightAttDirectiveDirective
+        >
+          Clear All Filters
+        </button>
+        <button class="btn btn-success" (click)="onNewUser()">New User</button>
+      </div>
+    </div>
+  </div>
+</div>

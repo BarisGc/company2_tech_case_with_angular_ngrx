@@ -1,0 +1,134 @@
+<form
+  class="col-6 offset-3 mb-5"
+  [formGroup]="userForm"
+  (ngSubmit)="onSubmit()"
+>
+  <div class="row">
+    <div class="col-md-12">
+      <button
+        type="submit"
+        class="btn btn-success"
+        [disabled]="!userForm.valid"
+      >
+        Save
+      </button>
+      <button type="button" class="btn btn-danger ms-2" (click)="onCancel()">
+        Cancel
+      </button>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-md-2">
+      <div class="form-group">
+        <label for="userID">User ID</label>
+        <input
+          type="number"
+          id="userID"
+          formControlName="userID"
+          class="form-control"
+          [readonly]="disableID"
+        />
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="form-group">
+        <label for="userName">User Name</label>
+        <input
+          type="text"
+          id="userName"
+          formControlName="userName"
+          class="form-control"
+        />
+      </div>
+    </div>
+    <div class="col-md-2">
+      <div class="form-group">
+        <label for="userStatus">User Status</label>
+        <input
+          type="text"
+          id="userStatus"
+          formControlName="userStatus"
+          class="form-control"
+        />
+      </div>
+    </div>
+    <div class="col-md-2">
+      <div class="form-group">
+        <label for="userAge">User Age</label>
+        <input
+          type="number"
+          id="userAge"
+          formControlName="userAge"
+          class="form-control"
+        />
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label for="userJob">User Job</label>
+        <input
+          type="text"
+          id="userJob"
+          formControlName="userJob"
+          class="form-control"
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="text-primary">
+    <hr />
+  </div>
+  <div class="row mt-3">
+    <div class="col-md-12" formArrayName="userCoursesFormArray">
+      <!--  buraya dikkat et
+            *ngFor="let courseCtrl of controls; let i = index"
+      -->
+      <div
+        class="row mb-2"
+        *ngFor="let courseCtrl of coursesControls; let i = index"
+        [formGroupName]="i"
+      >
+        <div class="col-sm-4">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="courseName"
+          />
+        </div>
+        <div class="col-sm-3">
+          <input
+            type="number"
+            class="form-control"
+            formControlName="measuredAT"
+          />
+        </div>
+        <div class="col-sm-4">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="completedAT"
+          />
+        </div>
+        <div class="col-sm-1">
+          <button
+            type="button"
+            class="btn btn-danger"
+            (click)="onDeleteCourse(i)"
+          >
+            X
+          </button>
+        </div>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="col-md-12">
+          <button type="button" class="btn btn-success" (click)="onAddCourse()">
+            Add Course
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
