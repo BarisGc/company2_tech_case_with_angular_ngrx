@@ -1,6 +1,6 @@
 // A resolver is essentially some code that runs before a route is loaded to ensure that certain data the route depends on is there.
 // Alternative: guard or redirection
-import { take } from 'rxjs/operators';
+import { map, switchMap, take } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import {
   // ActivatedRouteSnapshot,
@@ -15,6 +15,7 @@ import { Users } from './users.model';
 // import { UsersService } from './users.service';
 import * as fromApp from '../appStore/app.reducer';
 import * as UsersActions from './store/users.actions';
+import { of } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class UsersResolverService implements Resolve<Users> {
@@ -27,10 +28,6 @@ export class UsersResolverService implements Resolve<Users> {
   resolve(): // route: ActivatedRouteSnapshot,
   // state: RouterStateSnapshot
   any {
-    //  Now we also need to add the take operator from rxjs/operators here to take only one value so // that we can complete and unsubscribe from the subscription, we have no ongoing subscription, // we're only interested in this event once and we're good // and now the resolver dispatches this but then also waits for recipes to be set.
-    this.store.dispatch(new UsersActions.FetchUsers());
-    return this.actions$.pipe(ofType(UsersActions.SET_USERS), take(1));
-
     // check if users are already in the store
     // const users = this.usersService.getUsers();
     // if (users.length === 0) {
@@ -38,5 +35,20 @@ export class UsersResolverService implements Resolve<Users> {
     // } else {
     //   return users;
     // }
+    return this.store.select('users').pipe(
+      map((usersState) => {
+        return usersState.users;
+      }),
+      switchMap((users) => {
+        if (users.length === 0) {
+          this.store.dispatch(new UsersActions.FetchUsers());
+          return this.actions$.pipe(ofType(UsersActions.SET_USERS), take(1));
+        } else {
+          return of(users);
+        }
+      })
+    );
+
+    //  Now we also need to add the take operator from rxjs/operators here to take only one value so // that we can complete and unsubscribe from the subscription, we have no ongoing subscription, // we're only interested in this event once and we're good // and now the resolver dispatches this but then also waits for recipes to be set.
   }
 }

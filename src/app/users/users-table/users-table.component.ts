@@ -5,7 +5,7 @@ import { Users } from '../users.model';
 import * as XLSX from 'xlsx';
 import { Store } from '@ngrx/store';
 import * as fromApp from '../../appStore/app.reducer';
-
+import * as UsersActions from '../../users/store/users.actions';
 @Component({
   selector: 'app-users-table',
   templateUrl: './users-table.component.html',
@@ -93,8 +93,9 @@ export class UsersTableComponent implements OnInit, OnDestroy {
 
   handleDeleteUser(ID: number): void {
     // this.userService.deleteUser(ID);
-    // this.router.navigate(['/users']);
     // this.userService.updateFilteredUsersTableData();
+    this.store.dispatch(new UsersActions.DeleteUser(ID));
+    this.router.navigate(['/users']);
   }
 
   onAddToSelectedUsersPool(userID: number) {

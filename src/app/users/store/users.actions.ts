@@ -37,7 +37,7 @@ export class UpdateTablePageOffset implements Action {
 
 export class AddUser implements Action {
   readonly type = ADD_USER;
-  constructor(public payload: Users) {}
+  constructor(public payload: any) {}
 }
 
 export class UpdateUser implements Action {
@@ -47,7 +47,7 @@ export class UpdateUser implements Action {
 
 export class DeleteUser implements Action {
   readonly type = DELETE_USER;
-  constructor(public payload: { id: number }) {}
+  constructor(public payload: number) {}
 }
 
 export type UsersActions =

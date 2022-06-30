@@ -107,10 +107,18 @@ export function usersReducer(
             : user
         ),
       };
+    /* Alternative way to update user
+      const updatedUser = {
+        ...state.users.find(user => user.userID === action.payload.id),
+        ...action.payload.updatedUserInformations,
+      };
+      const updatedUsers = [...state.users];
+      updatedUsers[updatedUsers.indexOf(updatedUser)] = updatedUser;
+      */
     case UsersActions.DELETE_USER:
       return {
         ...state,
-        users: state.users.filter((user) => user.userID !== action.payload.id),
+        users: state.users.filter((user) => user.userID !== action.payload),
       };
 
     default:

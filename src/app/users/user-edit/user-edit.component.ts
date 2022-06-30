@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {
   UntypedFormGroup,
   UntypedFormControl,
@@ -12,18 +12,20 @@ import { UsersService } from '../users.service';
 import { Store } from '@ngrx/store';
 import * as fromApp from '../../appStore/app.reducer';
 import { map } from 'rxjs/operators';
-
+import * as UsersActions from '../store/users.actions';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-user-edit',
   templateUrl: './user-edit.component.html',
   styleUrls: ['./user-edit.component.css'],
 })
-export class UserEditComponent implements OnInit {
+export class UserEditComponent implements OnInit, OnDestroy {
   id!: number;
   disableID = true;
   editMode = false;
   userForm!: UntypedFormGroup;
 
+  storeSub = Subscription.EMPTY;
   get coursesControls() {
     // get controls()
     // buraya dikkat et
@@ -47,18 +49,37 @@ export class UserEditComponent implements OnInit {
   }
   onSubmit() {
     if (this.editMode) {
-      this.usersService.updateUserData(this.id, this.userForm.value);
+      // this.usersService.updateUserData(this.id, this.userForm.value);
+      this.store.dispatch(
+        new UsersActions.UpdateUser({
+          id: this.id,
+          updatedUserInformations: this.userForm.value,
+        })
+      );
     } else {
       if (
-        this.usersService
-          .getAllTableParameters()
-          .nonFilteredUsersTableData.find(
-            (user: any) => user.userID === this.userForm.value.userID
+        this.store
+          .select('users')
+          .pipe(
+            map((userData) =>
+              userData.tableParameters.nonFilteredUsersTableData.find(
+                (user) => user.userID === this.userForm.value.userID
+              )
+            )
           )
+        // this.usersService
+        //   .getAllTableParameters()
+        //   .nonFilteredUsersTableData.find(
+        //     (user: any) => user.userID === this.userForm.value.userID
       ) {
         alert('User already exists');
       } else {
-        this.usersService.addUser(this.userForm.value);
+        // this.usersService.addUser(this.userForm.value);
+        this.store.dispatch(
+          new UsersActions.AddUser({
+            user: this.userForm.value,
+          })
+        );
         this.onCancel();
       }
     }
@@ -77,7 +98,7 @@ export class UserEditComponent implements OnInit {
 
     if (this.editMode) {
       // const user = this.usersService.getUser(this.id);
-      this.store
+      this.storeSub = this.store
         .select('users')
         .pipe(
           map((usersState) => {
@@ -150,5 +171,10 @@ export class UserEditComponent implements OnInit {
         completedAT: new UntypedFormControl(null, Validators.required),
       })
     );
+  }
+  ngOnDestroy() {
+    if (this.storeSub) {
+      this.storeSub.unsubscribe();
+    }
   }
 }
