@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AuthUserModel } from './auth-user.model';
+// import { AuthUserModel } from './auth-user.model';
 
 import * as fromApp from '../appStore/app.reducer';
 import * as AuthActions from './store/auth.actions';
@@ -50,14 +50,14 @@ export class AuthService {
     private store: Store<fromApp.AppState>
   ) {}
 
-  setSignOutTimer(expirationDuration: number) {
+  setLogoutTimer(expirationDuration: number) {
     console.log('expirationDuration', expirationDuration);
     this.tokenExpirationTimer = setTimeout(() => {
       this.store.dispatch(new AuthActions.SignOut());
     }, expirationDuration);
   }
 
-  clearSignOutTimer() {
+  clearLogoutTimer() {
     if (this.tokenExpirationTimer) {
       clearTimeout(this.tokenExpirationTimer);
       this.tokenExpirationTimer = null;

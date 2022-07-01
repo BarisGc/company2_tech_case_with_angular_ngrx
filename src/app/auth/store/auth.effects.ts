@@ -1,14 +1,14 @@
-import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Actions, ofType, Effect } from '@ngrx/effects';
 import { switchMap, map, catchError, exhaustMap, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+
 import * as AuthActions from './auth.actions';
-import { Router } from '@angular/router';
-import { Injectable } from '@angular/core';
 import { AuthUserModel } from '../auth-user.model';
 import { AuthService } from '../auth.service';
-
 export interface AuthResponseData {
   kind: string;
   idToken: string;
@@ -77,7 +77,7 @@ export class AuthEffects {
         )
         .pipe(
           tap((resData) => {
-            this.authService.setSignOutTimer(+resData.expiresIn * 1000);
+            this.authService.setLogoutTimer(+resData.expiresIn * 1000);
           }), // akışı bozmadan araya girdi tap ile ...
           map((resData) => {
             return handleAuthentication(
@@ -96,9 +96,9 @@ export class AuthEffects {
 
   // No need to subscripe this actions$ observer here, because ngrx does it for us
   @Effect()
-  authSignIn = this.actions$.pipe(
-    ofType(AuthActions.SIGNIN_START), // only listen to this action
-    switchMap((authData: AuthActions.SignInStart) => {
+  authLogin = this.actions$.pipe(
+    ofType(AuthActions.LOGIN_START), // only listen to this action
+    switchMap((authData: AuthActions.LoginStart) => {
       //switchmap allows us to create new observer by taking another observable data
       console.log('SİGNİNREDDATA');
       return this.http
@@ -113,7 +113,7 @@ export class AuthEffects {
         )
         .pipe(
           tap((resData) => {
-            this.authService.setSignOutTimer(+resData.expiresIn * 1000);
+            this.authService.setLogoutTimer(+resData.expiresIn * 1000);
           }), // akışı bozmadan araya girdi tap ile ...
           map((resData) => {
             return handleAuthentication(
@@ -143,16 +143,16 @@ export class AuthEffects {
     })
   );
 
-  @Effect({ dispatch: false })
-  autoSignIn = this.actions$.pipe(
-    ofType(AuthActions.AUTO_SIGNIN),
+  @Effect()
+  autoLogin = this.actions$.pipe(
+    ofType(AuthActions.AUTO_LOGIN),
     map(() => {
       const authUserData: {
         email: string;
         id: string;
         _token: string;
         _tokenExpirationDate: string;
-      } = JSON.parse(localStorage.getItem('authanticatedUserData') || '{}');
+      } = JSON.parse(localStorage.getItem('authUserData') || '{}');
       if (!authUserData) {
         return { type: 'Dummy' };
       }
@@ -168,7 +168,7 @@ export class AuthEffects {
         const expirationDuration =
           new Date(authUserData._tokenExpirationDate).getTime() -
           new Date().getTime();
-        this.authService.setSignOutTimer(expirationDuration);
+        this.authService.setLogoutTimer(expirationDuration);
 
         return new AuthActions.AuthenticateSuccess({
           email: loadedAuthUser.email,
@@ -189,9 +189,9 @@ export class AuthEffects {
 
   @Effect({ dispatch: false })
   authSignOut = this.actions$.pipe(
-    ofType(AuthActions.SIGNOUT),
+    ofType(AuthActions.LOGOUT),
     tap(() => {
-      this.authService.clearSignOutTimer();
+      this.authService.clearLogoutTimer();
       localStorage.removeItem('authUserData');
       this.router.navigate(['/auth']);
     })

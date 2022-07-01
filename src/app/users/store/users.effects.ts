@@ -25,6 +25,7 @@ export class UsersEffects {
       );
     }),
     map((users) => {
+      console.log('fetch içi users', users);
       return users.map((user) => {
         return {
           ...user,

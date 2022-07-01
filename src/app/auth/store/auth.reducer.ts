@@ -3,13 +3,13 @@ import * as AuthActions from './auth.actions';
 
 export interface AuthState {
   user: AuthUserModel | null;
-  authError: string | null;
-  isLoading: boolean | null;
+  authError: string;
+  isLoading: boolean;
 }
 
 const initialState: AuthState = {
   user: null,
-  authError: null,
+  authError: '',
   isLoading: false,
 };
 
@@ -32,12 +32,12 @@ export function authReducer(
         isLoading: false,
       };
 
-    case AuthActions.SIGNOUT:
+    case AuthActions.LOGOUT:
       return {
         ...state,
         user: null,
       };
-    case AuthActions.SIGNIN_START:
+    case AuthActions.LOGIN_START:
     case AuthActions.SIGNUP_START:
       return {
         ...state,
