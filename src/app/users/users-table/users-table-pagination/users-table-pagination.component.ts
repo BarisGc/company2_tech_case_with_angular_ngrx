@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { map, Subscription } from 'rxjs';
-import { UsersService } from '../../users.service';
+// import { UsersService } from '../../users.service';
 
 import { Store } from '@ngrx/store';
 import * as fromApp from '../../../appStore/app.reducer';
@@ -12,7 +12,7 @@ import * as UsersActions from '../../store/users.actions';
 })
 export class UsersTablePaginationComponent implements OnInit, OnDestroy {
   constructor(
-    private userService: UsersService,
+    // private userService: UsersService,
     private store: Store<fromApp.AppState>
   ) {}
   tablePageLength!: number;

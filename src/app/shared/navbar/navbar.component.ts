@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription, map } from 'rxjs';
 
-import { AuthService } from 'src/app/auth/auth.service';
-import { DataStorageService } from '../data-storage.service';
+// import { AuthService } from 'src/app/auth/auth.service';
+// import { DataStorageService } from '../data-storage.service';
 import { Store } from '@ngrx/store';
 import * as fromApp from '../../appStore/app.reducer';
 import * as AuthActions from '../../auth/store/auth.actions';
@@ -17,8 +17,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
   private userAuthSub!: Subscription;
 
   constructor(
-    private dataStorageService: DataStorageService,
-    private authService: AuthService,
+    // private dataStorageService: DataStorageService,
+    // private authService: AuthService,
     private store: Store<fromApp.AppState>
   ) {}
 
@@ -32,7 +32,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   onSaveData() {
-    this.dataStorageService.storeUsers();
+    // this.dataStorageService.storeUsers();
+    this.store.dispatch(new UsersActions.StoreUsers());
   }
   onFetchData() {
     // this.dataStorageService.fetchUsers().subscribe();

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Users } from '../../users.model';
-import { UsersService } from '../../users.service';
+// import { UsersService } from '../../users.service';
 import { Store } from '@ngrx/store';
 import * as fromApp from '../../../appStore/app.reducer';
 import { map } from 'rxjs/operators';
@@ -15,7 +15,7 @@ export class UserDetailsHeaderComponent implements OnInit {
   userDetails?: Users;
 
   constructor(
-    private usersService: UsersService,
+    // private usersService: UsersService,
     private route: ActivatedRoute,
     private router: Router,
     private store: Store<fromApp.AppState>

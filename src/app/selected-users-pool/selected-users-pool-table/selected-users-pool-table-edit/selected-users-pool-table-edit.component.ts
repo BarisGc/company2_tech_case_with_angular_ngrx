@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { SelectedUsers } from 'src/app/shared/selected-users.model';
 import * as SelectedUsersPoolActions from '../../store/selected-users-pool.actions';
 import * as fromApp from '../../../appStore/app.reducer';
-import { UsersService } from 'src/app/users/users.service';
+// import { UsersService } from 'src/app/users/users.service';
 import { Users } from 'src/app/users/users.model';
 @Component({
   selector: 'app-selected-users-pool-table-edit',
@@ -21,8 +21,7 @@ export class SelectedUsersPoolTableEditComponent implements OnInit, OnDestroy {
   // selectedUser!: any;
 
   constructor(
-    private store: Store<fromApp.AppState>,
-    private usersService: UsersService
+    private store: Store<fromApp.AppState> // private usersService: UsersService
   ) {}
 
   ngOnInit(): void {
@@ -91,20 +90,20 @@ export class SelectedUsersPoolTableEditComponent implements OnInit, OnDestroy {
       if (!newSelectedUser.userIsRegistered) {
         newSelectedUser.userIsRegistered = false;
       }
-      let findOriginalArr = this.usersService.getUsers();
-      let findOriginalId = findOriginalArr.find(
-        (user: Users) => user.userID == newSelectedUser.userID
-      );
+      // let findOriginalArr = this.usersService.getUsers();
+      // let findOriginalId = findOriginalArr.find(
+      //   (user: Users) => user.userID == newSelectedUser.userID
+      // );
 
-      if (findOriginalId) {
-        alert('This userId has been taken!');
-      } else {
-        console.log('newSelectedUser', newSelectedUser);
-        // this.supService.addSelectedUser(newSelectedUser);
-        this.store.dispatch(
-          new SelectedUsersPoolActions.AddSelectedUser(newSelectedUser)
-        );
-      }
+      // if (findOriginalId) {
+      //   alert('This userId has been taken!');
+      // } else {
+      //   console.log('newSelectedUser', newSelectedUser);
+      //   // this.supService.addSelectedUser(newSelectedUser);
+      //   this.store.dispatch(
+      //     new SelectedUsersPoolActions.AddSelectedUser(newSelectedUser)
+      //   );
+      // }
     }
     this.editMode = false;
     form.reset();

@@ -9,7 +9,7 @@ export const STOP_EDIT = '[SelectedUsersPool] Stop Edit';
 
 export class AddSelectedUser implements Action {
   readonly type = ADD_SELECTEDUSER;
-  constructor(public payload: SelectedUsers) {}
+  constructor(public payload: any) {}
 }
 
 export class UpdateSelectedUser implements Action {

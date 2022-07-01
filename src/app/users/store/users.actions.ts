@@ -4,6 +4,7 @@ import { Users } from '../users.model';
 
 export const SET_USERS = '[Users] Set Users';
 export const FETCH_USERS = '[Users] Fetch Users';
+export const STORE_USERS = '[Users] Store Users';
 
 export const SET_TABLEPAGINATIONCOUNTS = '[Users] Set Table Pagination Counts';
 export const CHANGE_TABLECURRENTPAGE = '[Users] Change Table Current Page';
@@ -21,6 +22,10 @@ export class SetUsers implements Action {
 
 export class FetchUsers implements Action {
   readonly type = FETCH_USERS;
+}
+
+export class StoreUsers implements Action {
+  readonly type = STORE_USERS;
 }
 export class SetTablePaginationCounts implements Action {
   readonly type = SET_TABLEPAGINATIONCOUNTS;
@@ -57,4 +62,6 @@ export type UsersActions =
   | UpdateTablePageOffset
   | AddUser
   | UpdateUser
-  | DeleteUser;
+  | DeleteUser
+  | FetchUsers
+  | StoreUsers;

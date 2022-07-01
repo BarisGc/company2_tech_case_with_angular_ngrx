@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UsersService } from '../users.service';
+// import { UsersService } from '../users.service';
 
 @Component({
   selector: 'app-users-options-bar',
@@ -12,7 +12,7 @@ export class UsersOptionsBarComponent implements OnInit {
   userPageLimitValue: number | null = null;
 
   constructor(
-    private userservice: UsersService,
+    // private userservice: UsersService,
     private router: Router,
     private route: ActivatedRoute
   ) {}
@@ -20,42 +20,42 @@ export class UsersOptionsBarComponent implements OnInit {
   ngOnInit(): void {}
 
   handleSearchName = (event: any) => {
-    this.userservice.updateSearchName(event.target.value);
-    this.userservice.updateFilteredUsersTableData();
+    // this.userservice.updateSearchName(event.target.value);
+    // this.userservice.updateFilteredUsersTableData();
   };
 
   handleUserPageLimit = (event: any) => {
-    this.userservice.updateTablePaginationInfoPaginationLimit(
-      event.target.value
-    );
-    this.userservice.calculateTableTotalPages();
-    this.userservice.updateFilteredUsersTableData();
+    // this.userservice.updateTablePaginationInfoPaginationLimit(
+    //   event.target.value
+    // );
+    // this.userservice.calculateTableTotalPages();
+    // this.userservice.updateFilteredUsersTableData();
   };
 
   handleUserStatusFilter = (userNewStatusSelection: string) => {
-    this.userservice.updateUserStatusFilter(userNewStatusSelection);
-    this.userservice.updateFilteredUsersTableData();
+    // this.userservice.updateUserStatusFilter(userNewStatusSelection);
+    // this.userservice.updateFilteredUsersTableData();
   };
 
   handleClearFilters = () => {
     this.searchValue = null;
     this.userPageLimitValue = null;
-    this.userservice.updateSearchName('');
-    this.userservice.updateUserStatusFilter('');
-    this.userservice.updateTablePaginationInfoPaginationLimit(
-      this.userservice.getAllTableParameters().tablePaginationInfo
-        .defaultPaginationLimit
-    );
-    this.userservice.updateUsertableTotalPages(
-      Math.ceil(
-        this.userservice.getAllTableParameters().nonFilteredUsersTableData
-          .length /
-          this.userservice.getAllTableParameters().tablePaginationInfo
-            .defaultPaginationLimit
-      )
-    );
+    // this.userservice.updateSearchName('');
+    // this.userservice.updateUserStatusFilter('');
+    // this.userservice.updateTablePaginationInfoPaginationLimit(
+    //   this.userservice.getAllTableParameters().tablePaginationInfo
+    //     .defaultPaginationLimit
+    // );
+    // this.userservice.updateUsertableTotalPages(
+    //   Math.ceil(
+    //     this.userservice.getAllTableParameters().nonFilteredUsersTableData
+    //       .length /
+    //       this.userservice.getAllTableParameters().tablePaginationInfo
+    //         .defaultPaginationLimit
+    //   )
+    // );
 
-    this.userservice.updateFilteredUsersTableData();
+    // this.userservice.updateFilteredUsersTableData();
   };
 
   onNewUser() {

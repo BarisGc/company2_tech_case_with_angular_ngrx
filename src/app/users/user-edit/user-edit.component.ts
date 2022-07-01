@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Users } from '../users.model';
-import { UsersService } from '../users.service';
+// import { UsersService } from '../users.service';
 
 import { Store } from '@ngrx/store';
 import * as fromApp from '../../appStore/app.reducer';
@@ -35,7 +35,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private usersService: UsersService,
+    // private usersService: UsersService,
     private router: Router,
     private store: Store<fromApp.AppState>
   ) {}
@@ -154,10 +154,10 @@ export class UserEditComponent implements OnInit, OnDestroy {
     (<UntypedFormArray>this.userForm.get('userCoursesFormArray')).removeAt(
       index
     );
-    this.usersService
-      .getAllTableParameters()
-      .nonFilteredUsersTableData.find((user: Users) => user.userID === this.id)
-      .userCourses.splice(index, 1);
+    // this.usersService
+    //   .getAllTableParameters()
+    //   .nonFilteredUsersTableData.find((user: Users) => user.userID === this.id)
+    //   .userCourses.splice(index, 1);
   }
 
   onAddCourse() {

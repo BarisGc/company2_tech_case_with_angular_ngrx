@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { UsersService } from '../users.service';
+// import { UsersService } from '../users.service';
 
 @Component({
   selector: '[app-users-header]',
@@ -21,16 +21,16 @@ import { UsersService } from '../users.service';
 export class UsersHeaderComponent implements OnInit {
   usersCount!: number;
 
-  constructor(private usersService: UsersService) {}
+  // constructor(private usersService: UsersService) {}
 
   subscription!: Subscription;
 
   ngOnInit(): void {
-    this.usersCount = this.usersService.getUsers().length;
-    this.subscription = this.usersService.tableParametersChanged.subscribe(
-      (tableParamaters) => {
-        this.usersCount = tableParamaters.nonFilteredUsersTableData.length;
-      }
-    );
+    // this.usersCount = this.usersService.getUsers().length;
+    // this.subscription = this.usersService.tableParametersChanged.subscribe(
+    //   (tableParamaters) => {
+    //     this.usersCount = tableParamaters.nonFilteredUsersTableData.length;
+    //   }
+    // );
   }
 }

@@ -1,11 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription, map } from 'rxjs';
+import { Subscription, map, switchMap } from 'rxjs';
 import { Users } from '../users.model';
 import * as XLSX from 'xlsx';
 import { Store } from '@ngrx/store';
 import * as fromApp from '../../appStore/app.reducer';
 import * as UsersActions from '../../users/store/users.actions';
+import * as SelectedUsersPoolActions from '../../selected-users-pool/store/selected-users-pool.actions';
 @Component({
   selector: 'app-users-table',
   templateUrl: './users-table.component.html',
@@ -99,16 +100,24 @@ export class UsersTableComponent implements OnInit, OnDestroy {
   }
 
   onAddToSelectedUsersPool(userID: number) {
-    // let findUser = this.filteredUsersTableData?.find(
-    //   (user) => user.userID === userID
-    // );
-    // let formattedFoundedUser = {
-    //   userID: findUser?.userID,
-    //   userName: findUser?.userName,
-    //   userTeam: 'none',
-    //   userIsRegistered: true,
-    // };
-    // this.userService.addSelectedUserToSelectedUsersPool(formattedFoundedUser);
+    return this.store.select('users').pipe(
+      map((usersState) => {
+        let findUser =
+          usersState.tableParameters.nonFilteredUsersTableData!.find(
+            (user: any) => user.userID === userID
+          );
+        let formattedFoundedUser = {
+          userID: findUser?.userID,
+          userName: findUser?.userName,
+          userTeam: 'none',
+          userIsRegistered: true,
+        };
+        this.store.dispatch(
+          new SelectedUsersPoolActions.AddSelectedUser(formattedFoundedUser)
+          // neden addselecteruser model selected user yapamadım da any yapmak zorunda kaldım, logla
+        );
+      })
+    );
   }
 
   exportexcel(): void {
