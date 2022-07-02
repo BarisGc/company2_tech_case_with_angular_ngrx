@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
 // import { AuthUserModel } from './auth-user.model';
 
 import * as fromApp from '../appStore/app.reducer';
 import * as AuthActions from './store/auth.actions';
-import { Store } from '@ngrx/store';
 // export interface AuthResponseData {
 //   kind: string;
 //   idToken: string;
@@ -53,7 +53,7 @@ export class AuthService {
   setLogoutTimer(expirationDuration: number) {
     console.log('expirationDuration', expirationDuration);
     this.tokenExpirationTimer = setTimeout(() => {
-      this.store.dispatch(new AuthActions.SignOut());
+      this.store.dispatch(new AuthActions.Logout());
     }, expirationDuration);
   }
 

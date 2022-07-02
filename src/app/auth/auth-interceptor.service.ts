@@ -1,21 +1,23 @@
 // with that, this interceptor should add the token to all outgoing requests.
-import {
-  HttpEvent,
-  HttpHandler,
-  HttpInterceptor,
-  HttpParams,
-  HttpRequest,
-} from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import {
+  HttpInterceptor,
+  HttpRequest,
+  HttpHandler,
+  HttpParams,
+  HttpEvent,
+} from '@angular/common/http';
 import { Observable, exhaustMap, take, map } from 'rxjs';
-import { AuthService } from './auth.service';
-
 import { Store } from '@ngrx/store';
+
+// import { AuthService } from './auth.service';
 import * as fromApp from '../appStore/app.reducer';
-@Injectable() // No Provider for this service
+
+// No Provider for this service
+@Injectable()
 export class AuthInterceptorService implements HttpInterceptor {
   constructor(
-    private authService: AuthService,
+    // private authService: AuthService,
     private store: Store<fromApp.AppState>
   ) {}
 
@@ -35,7 +37,7 @@ export class AuthInterceptorService implements HttpInterceptor {
           return next.handle(req);
         }
         const modifiedReq = req.clone({
-          params: new HttpParams().set('auth', authUser!.token),
+          params: new HttpParams().set('auth', authUser.token),
         });
         return next.handle(modifiedReq);
       })

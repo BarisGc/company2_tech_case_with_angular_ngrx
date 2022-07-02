@@ -1,12 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
 // import { Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
 // import { AuthResponseData, AuthService } from './auth.service';
 
+import { NgForm } from '@angular/forms';
+import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-import * as AuthActions from './store/auth.actions';
+
 import * as fromApp from '../appStore/app.reducer';
+import * as AuthActions from './store/auth.actions';
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
@@ -48,7 +49,7 @@ export class AuthComponent implements OnInit, OnDestroy {
     if (this.isLoginMode) {
       // authObs = this.authService.signIn(email, password);
       this.store.dispatch(
-        new AuthActions.SignInStart({ email: email, password: password })
+        new AuthActions.LoginStart({ email: email, password: password })
       );
     } else {
       // authObs = this.authService.signUp(email, password);

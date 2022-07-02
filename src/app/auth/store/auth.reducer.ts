@@ -3,7 +3,7 @@ import * as AuthActions from './auth.actions';
 
 export interface AuthState {
   user: AuthUserModel | null;
-  authError: string;
+  authError: string | null;
   isLoading: boolean;
 }
 

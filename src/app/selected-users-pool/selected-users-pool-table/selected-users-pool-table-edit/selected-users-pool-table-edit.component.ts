@@ -1,12 +1,13 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { map, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+
 import { SelectedUsers } from 'src/app/shared/selected-users.model';
 import * as SelectedUsersPoolActions from '../../store/selected-users-pool.actions';
 import * as fromApp from '../../../appStore/app.reducer';
-// import { UsersService } from 'src/app/users/users.service';
 import { Users } from 'src/app/users/users.model';
+// import { UsersService } from 'src/app/users/users.service';
 @Component({
   selector: 'app-selected-users-pool-table-edit',
   templateUrl: './selected-users-pool-table-edit.component.html',
@@ -16,7 +17,8 @@ export class SelectedUsersPoolTableEditComponent implements OnInit, OnDestroy {
   @ViewChild('f', { static: false }) supForm!: NgForm;
   subscription!: Subscription;
   editMode = false;
-  editedItem!: SelectedUsers | undefined;
+  // editedItem!: SelectedUsers | undefined;
+  editedItem!: SelectedUsers;
   // selectedUsers!: Observable<{ selectedUsers: SelectedUsers[] } | undefined>;
   // selectedUser!: any;
 
@@ -91,19 +93,23 @@ export class SelectedUsersPoolTableEditComponent implements OnInit, OnDestroy {
         newSelectedUser.userIsRegistered = false;
       }
       // let findOriginalArr = this.usersService.getUsers();
-      // let findOriginalId = findOriginalArr.find(
-      //   (user: Users) => user.userID == newSelectedUser.userID
-      // );
-
-      // if (findOriginalId) {
-      //   alert('This userId has been taken!');
-      // } else {
-      //   console.log('newSelectedUser', newSelectedUser);
-      //   // this.supService.addSelectedUser(newSelectedUser);
-      //   this.store.dispatch(
-      //     new SelectedUsersPoolActions.AddSelectedUser(newSelectedUser)
-      //   );
-      // }
+      let findOriginalId = this.store.select('users').pipe(
+        map((usersData) => {
+          return usersData.users.find(
+            (user: Users) => user.userID === newSelectedUser.userID
+          );
+        })
+      );
+      console.log('findOriginalId', findOriginalId);
+      if (findOriginalId) {
+        alert('This userId has been taken!');
+      } else {
+        console.log('newSelectedUser', newSelectedUser);
+        // this.supService.addSelectedUser(newSelectedUser);
+        this.store.dispatch(
+          new SelectedUsersPoolActions.AddSelectedUser(newSelectedUser)
+        );
+      }
     }
     this.editMode = false;
     form.reset();

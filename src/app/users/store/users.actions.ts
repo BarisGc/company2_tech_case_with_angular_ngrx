@@ -57,11 +57,11 @@ export class DeleteUser implements Action {
 
 export type UsersActions =
   | SetUsers
-  | SetTablePaginationCounts
-  | ChangeTableCurrentPage
-  | UpdateTablePageOffset
+  | FetchUsers
+  | StoreUsers
   | AddUser
   | UpdateUser
   | DeleteUser
-  | FetchUsers
-  | StoreUsers;
+  | SetTablePaginationCounts
+  | ChangeTableCurrentPage
+  | UpdateTablePageOffset;

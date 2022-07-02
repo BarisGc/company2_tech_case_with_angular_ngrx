@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Users } from '../../users.model';
-// import { UsersService } from '../../users.service';
-import * as fromApp from '../../../appStore/app.reducer';
 import { map, switchMap } from 'rxjs/operators';
+// import { UsersService } from '../../users.service';
+
+import { Users } from '../../users.model';
+import * as fromApp from '../../../appStore/app.reducer';
 @Component({
   selector: 'app-user-details-table',
   templateUrl: './user-details-table.component.html',

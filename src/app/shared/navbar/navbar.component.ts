@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription, map } from 'rxjs';
-
+import { Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
 // import { AuthService } from 'src/app/auth/auth.service';
 // import { DataStorageService } from '../data-storage.service';
-import { Store } from '@ngrx/store';
+
 import * as fromApp from '../../appStore/app.reducer';
 import * as AuthActions from '../../auth/store/auth.actions';
 import * as UsersActions from '../../users/store/users.actions';
@@ -42,7 +43,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   onSignOut() {
     // this.authService.signOut();
-    this.store.dispatch(new AuthActions.SignOut());
+    this.store.dispatch(new AuthActions.Logout());
   }
 
   ngOnDestroy(): void {

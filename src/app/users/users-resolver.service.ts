@@ -1,21 +1,22 @@
 // A resolver is essentially some code that runs before a route is loaded to ensure that certain data the route depends on is there.
 // Alternative: guard or redirection
-import { map, switchMap, take } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import {
-  // ActivatedRouteSnapshot,
+  ActivatedRouteSnapshot,
+  RouterStateSnapshot,
   Resolve,
-  // RouterStateSnapshot,
 } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { Actions, ofType } from '@ngrx/effects';
 // import { Observable } from 'rxjs';
 // import { DataStorageService } from '../shared/data-storage.service';
-import { Users } from './users.model';
 // import { UsersService } from './users.service';
+import { Store } from '@ngrx/store';
+import { Actions, ofType } from '@ngrx/effects';
+import { map, switchMap, take } from 'rxjs/operators';
+import { of } from 'rxjs';
+
+import { Users } from './users.model';
 import * as fromApp from '../appStore/app.reducer';
 import * as UsersActions from './store/users.actions';
-import { of } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class UsersResolverService implements Resolve<Users> {
@@ -25,17 +26,9 @@ export class UsersResolverService implements Resolve<Users> {
     private store: Store<fromApp.AppState>,
     private actions$: Actions
   ) {}
-  resolve(): // route: ActivatedRouteSnapshot,
-  // state: RouterStateSnapshot
-  any {
-    // check if users are already in the store
-    // const users = this.usersService.getUsers();
-    // if (users.length === 0) {
-    //   return this.dataStorageService.fetchUsers();
-    // } else {
-    //   return users;
-    // }
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): any {
     return this.store.select('users').pipe(
+      take(1),
       map((usersState) => {
         return usersState.users;
       }),

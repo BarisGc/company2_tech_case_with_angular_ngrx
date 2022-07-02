@@ -1,25 +1,19 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
+import { HttpClient } from '@angular/common/http';
 import { map, switchMap, withLatestFrom } from 'rxjs';
-import { Users } from '../users.model';
 
+import { Users } from '../users.model';
 import * as UsersActions from './users.actions';
 import * as fromApp from '../../appStore/app.reducer';
 @Injectable()
 export class UsersEffects {
-  constructor(
-    private actions$: Actions,
-    private http: HttpClient,
-    private store: Store<fromApp.AppState>
-  ) {}
-
   @Effect()
   fetchUsers = this.actions$.pipe(
     ofType(UsersActions.FETCH_USERS),
     switchMap(() => {
-      // no need argument in switchMap() since no need payload
+      // no need argument in this switchMap() since no need payload
       return this.http.get<Users[]>(
         'https://ng-practice-usercrud-barisd-default-rtdb.europe-west1.firebasedatabase.app/users.json'
       );
@@ -61,4 +55,9 @@ export class UsersEffects {
       }
     )
   );
+  constructor(
+    private actions$: Actions,
+    private http: HttpClient,
+    private store: Store<fromApp.AppState>
+  ) {}
 }

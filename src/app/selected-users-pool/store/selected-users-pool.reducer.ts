@@ -3,14 +3,14 @@ import * as SelectedUsersPoolActions from './selected-users-pool.actions';
 
 export interface SelectedUsersPoolState {
   selectedUsers: SelectedUsers[];
-  editedItemId: number;
   editedItem: any;
+  editedItemId: number;
 }
 
 const initialState: SelectedUsersPoolState = {
   selectedUsers: [],
-  editedItemId: -1,
   editedItem: null,
+  editedItemId: -1,
 };
 
 export function selectedUsersPoolReducer(
@@ -28,7 +28,6 @@ export function selectedUsersPoolReducer(
         (selectedUser: SelectedUsers) =>
           selectedUser.userID === action.payload.userID
       );
-      // Id Exists
       const updatedSelectedUser = {
         ...state.selectedUsers[findSelectedUserIndex],
         ...action.payload,
@@ -48,8 +47,8 @@ export function selectedUsersPoolReducer(
           (selectedUser, index) =>
             selectedUser.userID !== state.editedItem.userID
         ),
-        editedItemId: -1,
         editedItem: null,
+        editedItemId: -1,
       };
     case SelectedUsersPoolActions.START_EDIT:
       console.log('starteditkontrol', {
@@ -71,12 +70,18 @@ export function selectedUsersPoolReducer(
           }),
         },
       };
+    // Alternative, if index instead of id is used:
+    // return {
+    //   ...state,
+    //   editedItemId: action.payload,
+    //   editedItem: { ...state.selectedUsers[action.payload] }
+    // };
 
     case SelectedUsersPoolActions.STOP_EDIT:
       return {
         ...state,
-        editedItemId: -1,
         editedItem: null,
+        editedItemId: -1,
       };
     default:
       return state;
