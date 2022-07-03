@@ -267,6 +267,51 @@ export function usersReducer(
           },
         },
       };
+    case UsersActions.FILTERING_SEARCHED_USERS:
+      return {
+        ...state,
+        tableParameters: {
+          ...state.tableParameters,
+          filterTypes: {
+            ...state.tableParameters.filterTypes,
+            searchName: action.payload,
+          },
+        },
+      };
+    case UsersActions.FILTERING_USER_STATUSES:
+      return {
+        ...state,
+        tableParameters: {
+          ...state.tableParameters,
+          filterTypes: {
+            ...state.tableParameters.filterTypes,
+            userStatusFilter: action.payload,
+          },
+        },
+      };
+    case UsersActions.lIMITING_TABLEPAGEROWCOUNT:
+      return {
+        ...state,
+        tableParameters: {
+          ...state.tableParameters,
+          tablePaginationInfo: {
+            ...state.tableParameters.tablePaginationInfo,
+            paginationLimit: action.payload,
+          },
+        },
+      };
+    case UsersActions.CLEAR_TABLE_FILTERS:
+      return {
+        ...state,
+        tableParameters: {
+          ...state.tableParameters,
+          filterTypes: {
+            ...state.tableParameters.filterTypes,
+            searchName: '',
+            userStatusFilter: '',
+          },
+        },
+      };
     case UsersActions.ADD_USER:
       return {
         ...state,
