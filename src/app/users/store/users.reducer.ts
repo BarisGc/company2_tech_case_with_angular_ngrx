@@ -320,13 +320,21 @@ export function usersReducer(
         users: [...state.users, action.payload],
       };
     case UsersActions.UPDATE_USER:
+      console.log(
+        'action.payload.updatedUserInformations',
+        action.payload.updatedUserInformations
+      );
       return {
         ...state,
-        users: state.users.map((user) =>
-          user.userID === action.payload.id
-            ? { ...user, ...action.payload.updatedUserInformations }
-            : user
-        ),
+        tableParameters: {
+          ...state.tableParameters,
+          nonFilteredUsersTableData:
+            state.tableParameters.nonFilteredUsersTableData.map((user) =>
+              user.userID === action.payload.id
+                ? { ...user, ...action.payload.updatedUserInformations }
+                : user
+            ),
+        },
       };
     /* Alternative way to update user
       const updatedUser = {

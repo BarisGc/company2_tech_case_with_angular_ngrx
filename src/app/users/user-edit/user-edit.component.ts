@@ -29,8 +29,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
   get coursesControls() {
     // get controls()
     // buraya dikkat et
-    return (<UntypedFormArray>this.userForm.get('userCoursesFormArray'))
-      .controls;
+    return (<UntypedFormArray>this.userForm.get('userCourses')).controls;
   }
 
   constructor(
@@ -56,6 +55,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
           updatedUserInformations: this.userForm.value,
         })
       );
+      this.onCancel();
     } else {
       if (
         this.store
@@ -86,15 +86,43 @@ export class UserEditComponent implements OnInit, OnDestroy {
   }
 
   onCancel() {
+    console.log('oncancelnavigate çalıtşım ?');
     this.router.navigate(['../../'], { relativeTo: this.route });
   }
+
+  onDeleteCourse(index: number) {
+    (<UntypedFormArray>this.userForm.get('userCourses')).removeAt(index);
+    // this.usersService
+    //   .getAllTableParameters()
+    //   .nonFilteredUsersTableData.find((user: Users) => user.userID === this.id)
+    //   .userCourses.splice(index, 1);
+  }
+
+  onAddCourse() {
+    (<UntypedFormArray>this.userForm.get('userCourses')).push(
+      new UntypedFormGroup({
+        courseName: new UntypedFormControl(null, Validators.required),
+        measuredAT: new UntypedFormControl(null, [
+          Validators.required,
+          Validators.pattern(/^[1-9]+[0-9]*$/),
+        ]),
+        completedAT: new UntypedFormControl(null, Validators.required),
+      })
+    );
+  }
+  ngOnDestroy() {
+    if (this.storeSub) {
+      this.storeSub.unsubscribe();
+    }
+  }
+
   private initForm() {
     let userID;
     let userName;
     let userStatus;
     let userAge;
     let userJob;
-    let userFormCourses = new UntypedFormArray([]);
+    let userCourses = new UntypedFormArray([]);
 
     if (this.editMode) {
       // const user = this.usersService.getUser(this.id);
@@ -117,7 +145,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
           userJob = user?.userJob;
           if (user) {
             for (let course of user.userCourses) {
-              userFormCourses.push(
+              userCourses.push(
                 new UntypedFormGroup({
                   courseName: new UntypedFormControl(
                     course.courseName,
@@ -146,35 +174,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
       userStatus: new UntypedFormControl(userStatus, Validators.required),
       userAge: new UntypedFormControl(userAge, Validators.required),
       userJob: new UntypedFormControl(userJob, Validators.required),
-      userCoursesFormArray: userFormCourses,
+      userCourses: userCourses,
     });
-  }
-
-  onDeleteCourse(index: number) {
-    (<UntypedFormArray>this.userForm.get('userCoursesFormArray')).removeAt(
-      index
-    );
-    // this.usersService
-    //   .getAllTableParameters()
-    //   .nonFilteredUsersTableData.find((user: Users) => user.userID === this.id)
-    //   .userCourses.splice(index, 1);
-  }
-
-  onAddCourse() {
-    (<UntypedFormArray>this.userForm.get('userCoursesFormArray')).push(
-      new UntypedFormGroup({
-        courseName: new UntypedFormControl(null, Validators.required),
-        measuredAT: new UntypedFormControl(null, [
-          Validators.required,
-          Validators.pattern(/^[1-9]+[0-9]*$/),
-        ]),
-        completedAT: new UntypedFormControl(null, Validators.required),
-      })
-    );
-  }
-  ngOnDestroy() {
-    if (this.storeSub) {
-      this.storeSub.unsubscribe();
-    }
   }
 }
