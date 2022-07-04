@@ -11,7 +11,7 @@ import { Users } from '../users.model';
 
 import { Store } from '@ngrx/store';
 import * as fromApp from '../../appStore/app.reducer';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import * as UsersActions from '../store/users.actions';
 import { Subscription } from 'rxjs';
 @Component({
@@ -24,7 +24,6 @@ export class UserEditComponent implements OnInit, OnDestroy {
   disableID = true;
   editMode = false;
   userForm!: UntypedFormGroup;
-  isUserExits!: boolean;
 
   storeSub = Subscription.EMPTY;
   get coursesControls() {
@@ -58,34 +57,11 @@ export class UserEditComponent implements OnInit, OnDestroy {
       );
       this.onCancel();
     } else {
-      this.store.select('users').pipe(
-        map((userData) => {
-          if (
-            userData.tableParameters.nonFilteredUsersTableData.find(
-              (user: Users) => user.userID === this.userForm.value.userID
-            )
-          ) {
-            this.isUserExits = true;
-          } else {
-            this.isUserExits = false;
-          }
-        })
-      );
-      // this.usersService
-      //   .getAllTableParameters()
-      //   .nonFilteredUsersTableData.find(
-      //     (user: any) => user.userID === this.userForm.value.userID
-      if (this.isUserExits === true) {
-        alert('User already exists');
-      } else {
-        // this.usersService.addUser(this.userForm.value);
-        this.store.dispatch(new UsersActions.AddUser(this.userForm.value));
-        this.store.dispatch(new UsersActions.SetTablePaginationCounts());
-        this.onCancel();
-      }
+      this.store.dispatch(new UsersActions.AddUser(this.userForm.value));
+      this.store.dispatch(new UsersActions.SetTablePaginationCounts());
+      this.onCancel();
     }
   }
-
   onCancel() {
     this.router.navigate(['../../'], { relativeTo: this.route });
   }

@@ -92,24 +92,12 @@ export class SelectedUsersPoolTableEditComponent implements OnInit, OnDestroy {
       if (!newSelectedUser.userIsRegistered) {
         newSelectedUser.userIsRegistered = false;
       }
-      // let findOriginalArr = this.usersService.getUsers();
-      let findOriginalId = this.store.select('users').pipe(
-        map((usersData) => {
-          return usersData.users.find(
-            (user: Users) => user.userID === newSelectedUser.userID
-          );
-        })
+
+      console.log('newSelectedUser', newSelectedUser);
+      // this.supService.addSelectedUser(newSelectedUser);
+      this.store.dispatch(
+        new SelectedUsersPoolActions.AddNonRegisteredUser(newSelectedUser)
       );
-      console.log('findOriginalId', findOriginalId);
-      if (findOriginalId) {
-        alert('This userId has been taken!');
-      } else {
-        console.log('newSelectedUser', newSelectedUser);
-        // this.supService.addSelectedUser(newSelectedUser);
-        this.store.dispatch(
-          new SelectedUsersPoolActions.AddSelectedUser(newSelectedUser)
-        );
-      }
     }
     this.editMode = false;
     form.reset();

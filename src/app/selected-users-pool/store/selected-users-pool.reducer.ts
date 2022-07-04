@@ -18,11 +18,18 @@ export function selectedUsersPoolReducer(
   action: SelectedUsersPoolActions.SelectedUsersPoolActions
 ) {
   switch (action.type) {
-    case SelectedUsersPoolActions.ADD_SELECTEDUSER:
+    case SelectedUsersPoolActions.ADD_NONREGISTEREDUSER:
       return {
         ...state,
         selectedUsers: [...state.selectedUsers, action.payload],
       };
+
+    case SelectedUsersPoolActions.ADD_REGISTEREDUSER:
+      return {
+        ...state,
+        selectedUsers: [...state.selectedUsers, action.payload],
+      };
+
     case SelectedUsersPoolActions.UPDATE_SELECTEDUSER:
       let findSelectedUserIndex = state.selectedUsers.findIndex(
         (selectedUser: SelectedUsers) =>

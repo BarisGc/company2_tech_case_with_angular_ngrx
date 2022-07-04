@@ -22,6 +22,8 @@ export class UsersTableComponent implements OnInit, OnDestroy {
     private store: Store<fromApp.AppState>
   ) {}
 
+  usersTableSubs!: Subscription;
+
   ngOnInit(): void {
     this.tableParametersChangedSub =
       // this.userService.tableParametersChanged.subscribe(
@@ -101,25 +103,42 @@ export class UsersTableComponent implements OnInit, OnDestroy {
   }
 
   onAddToSelectedUsersPool(userID: number) {
-    return this.store.select('users').pipe(
-      map((usersState) => {
-        let findUser =
-          usersState.tableParameters.nonFilteredUsersTableData!.find(
-            (user: any) => user.userID === userID
-          );
-        let formattedFoundedUser = {
-          userID: findUser?.userID,
-          userName: findUser?.userName,
-          userTeam: 'none',
-          userIsRegistered: true,
-        };
-        this.store.dispatch(
-          new SelectedUsersPoolActions.AddSelectedUser(formattedFoundedUser)
-          // neden addselecteruser model selected user yapamadım da any yapmak zorunda kaldım, logla
-        );
-      })
-    );
+    this.usersTableSubs = this.store.select('users').subscribe((usersState) => {
+      let findUser = usersState.tableParameters.nonFilteredUsersTableData!.find(
+        (user: Users) => user.userID === userID
+      );
+      let formattedFoundedUser = {
+        userID: findUser!.userID,
+        userName: findUser!.userName,
+        userTeam: 'none',
+        userIsRegistered: true,
+      };
+      this.store.dispatch(
+        new SelectedUsersPoolActions.AddRegisteredUser(formattedFoundedUser)
+      );
+    });
   }
+
+  // return new SelectedUsersPoolActions.AddRegisteredUser(
+  //   formattedFoundedUser
+  // );
+  // return this.store.select('recipes').pipe(
+  //   take(1),
+  //   map(recipesState => {
+  //     return recipesState.recipes;
+  //   }),
+  //   switchMap(recipes => {
+  //     if (recipes.length === 0) {
+  //       this.store.dispatch(new RecipesActions.FetchRecipes());
+  //       return this.actions$.pipe(
+  //         ofType(RecipesActions.SET_RECIPES),
+  //         take(1)
+  //       );
+  //     } else {
+  //       return of(recipes);
+  //     }
+  //   })
+  // );
 
   exportexcel(): void {
     let fileName = 'ExcelSheet.xlsx';
@@ -137,5 +156,6 @@ export class UsersTableComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.tableParametersChangedSub.unsubscribe();
+    this.usersTableSubs.unsubscribe();
   }
 }
