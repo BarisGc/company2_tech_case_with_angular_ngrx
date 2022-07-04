@@ -24,6 +24,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
   disableID = true;
   editMode = false;
   userForm!: UntypedFormGroup;
+  isUserExits!: boolean;
 
   storeSub = Subscription.EMPTY;
   get coursesControls() {
@@ -57,36 +58,35 @@ export class UserEditComponent implements OnInit, OnDestroy {
       );
       this.onCancel();
     } else {
-      if (
-        this.store
-          .select('users')
-          .pipe(
-            map((userData) =>
-              userData.tableParameters.nonFilteredUsersTableData.find(
-                (user) => user.userID === this.userForm.value.userID
-              )
+      this.store.select('users').pipe(
+        map((userData) => {
+          if (
+            userData.tableParameters.nonFilteredUsersTableData.find(
+              (user: Users) => user.userID === this.userForm.value.userID
             )
-          )
-        // this.usersService
-        //   .getAllTableParameters()
-        //   .nonFilteredUsersTableData.find(
-        //     (user: any) => user.userID === this.userForm.value.userID
-      ) {
+          ) {
+            this.isUserExits = true;
+          } else {
+            this.isUserExits = false;
+          }
+        })
+      );
+      // this.usersService
+      //   .getAllTableParameters()
+      //   .nonFilteredUsersTableData.find(
+      //     (user: any) => user.userID === this.userForm.value.userID
+      if (this.isUserExits === true) {
         alert('User already exists');
       } else {
         // this.usersService.addUser(this.userForm.value);
-        this.store.dispatch(
-          new UsersActions.AddUser({
-            user: this.userForm.value,
-          })
-        );
+        this.store.dispatch(new UsersActions.AddUser(this.userForm.value));
+        this.store.dispatch(new UsersActions.SetTablePaginationCounts());
         this.onCancel();
       }
     }
   }
 
   onCancel() {
-    console.log('oncancelnavigate çalıtşım ?');
     this.router.navigate(['../../'], { relativeTo: this.route });
   }
 

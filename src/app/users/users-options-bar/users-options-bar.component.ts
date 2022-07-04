@@ -29,10 +29,6 @@ export class UsersOptionsBarComponent implements OnInit, OnDestroy {
       .subscribe((usersState) => {
         this.defaultTablePageRowCount =
           usersState.tableParameters.tablePaginationInfo.defaultPaginationLimit;
-        console.log(
-          'ngoninit',
-          usersState.tableParameters.tablePaginationInfo.defaultPaginationLimit
-        );
       });
   }
 
@@ -52,22 +48,12 @@ export class UsersOptionsBarComponent implements OnInit, OnDestroy {
     // this.userservice.updateFilteredUsersTableData();
 
     if (event.target.value == null || event.target.value == 0) {
-      console.log(
-        'handleUserPageLimitdefault',
-        typeof this.defaultTablePageRowCount
-      );
-      console.log('handleUserPageLimitevent', typeof event.target.value);
       this.store.dispatch(
         new UsersActions.LimitingTablePageRowCount(
           this.defaultTablePageRowCount
         )
       );
     } else {
-      console.log(
-        'handleUserPageLimitdefault',
-        typeof this.defaultTablePageRowCount
-      );
-      console.log('handleUserPageLimitevent', typeof event.target.value);
       this.store.dispatch(
         new UsersActions.LimitingTablePageRowCount(event.target.value)
       );

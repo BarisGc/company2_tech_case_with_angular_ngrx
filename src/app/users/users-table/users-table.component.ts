@@ -96,6 +96,7 @@ export class UsersTableComponent implements OnInit, OnDestroy {
     // this.userService.deleteUser(ID);
     // this.userService.updateFilteredUsersTableData();
     this.store.dispatch(new UsersActions.DeleteUser(ID));
+    this.store.dispatch(new UsersActions.SetTablePaginationCounts());
     this.router.navigate(['/users']);
   }
 

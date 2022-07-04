@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { HttpClient } from '@angular/common/http';
-import { map, switchMap, withLatestFrom } from 'rxjs';
+import { concatMap, map, switchMap, withLatestFrom } from 'rxjs';
 
 import { Users } from '../users.model';
 import * as UsersActions from './users.actions';
@@ -19,7 +19,6 @@ export class UsersEffects {
       );
     }),
     map((users) => {
-      console.log('fetch içi users', users);
       return users.map((user) => {
         return {
           ...user,
@@ -30,6 +29,10 @@ export class UsersEffects {
     map((users: Users[]) => {
       return new UsersActions.SetUsers(users);
     })
+
+    // concatMap((usersAction) => {
+    //       this.store.dispatch(new UsersActions.SetTablePaginationCounts());
+    // })
   );
 
   @Effect({ dispatch: false })

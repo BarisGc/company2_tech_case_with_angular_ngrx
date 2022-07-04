@@ -68,7 +68,9 @@ export class ClearTableFilters implements Action {
 
 export class AddUser implements Action {
   readonly type = ADD_USER;
-  constructor(public payload: any) {}
+  constructor(public payload: Users) {
+    console.log('AddUseractions', payload);
+  }
 }
 
 export class UpdateUser implements Action {

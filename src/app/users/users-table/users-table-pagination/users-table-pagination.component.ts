@@ -27,7 +27,7 @@ export class UsersTablePaginationComponent implements OnInit, OnDestroy {
         .select('users')
         .pipe(map((usersState) => usersState.tableParameters))
         .subscribe((newTableParameters) => {
-          console.log('newTableParameters', newTableParameters);
+          console.log('pagination çalışıyor mu?');
           this.totalPagesArr = new Array(
             newTableParameters.tablePaginationInfo.tableTotalPages
           );
@@ -36,9 +36,6 @@ export class UsersTablePaginationComponent implements OnInit, OnDestroy {
           );
 
           this.activePage = newTableParameters.tablePaginationInfo.currentPage;
-          console.log('this.activePage', this.activePage);
-          console.log('this.totalPagesArr', this.totalPagesArr);
-          console.log('this.tablePageLength', this.tablePageLength);
         });
   }
 

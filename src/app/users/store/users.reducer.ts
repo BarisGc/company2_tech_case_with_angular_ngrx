@@ -222,10 +222,25 @@ export function usersReducer(
         tableParameters: {
           ...state.tableParameters,
           nonFilteredUsersTableData: [...action.payload],
+          // tablePaginationInfo: {
+          //   ...state.tableParameters.tablePaginationInfo,
+          //   tableTotalPages: Math.ceil(
+          //     action.payload.length /
+          //       state.tableParameters.tablePaginationInfo.paginationLimit
+          //   ),
+          // },
+        },
+      };
+
+    case UsersActions.SET_TABLEPAGINATIONCOUNTS:
+      return {
+        ...state,
+        tableParameters: {
+          ...state.tableParameters,
           tablePaginationInfo: {
             ...state.tableParameters.tablePaginationInfo,
             tableTotalPages: Math.ceil(
-              action.payload.length /
+              state.tableParameters.nonFilteredUsersTableData.length /
                 state.tableParameters.tablePaginationInfo.paginationLimit
             ),
           },
@@ -282,7 +297,6 @@ export function usersReducer(
         },
       };
     case UsersActions.lIMITING_TABLEPAGEROWCOUNT:
-      console.log('usersactionlimitingreducer', typeof action.payload);
       return {
         ...state,
         tableParameters: {
@@ -315,15 +329,18 @@ export function usersReducer(
         },
       };
     case UsersActions.ADD_USER:
+      console.log('adduser,actionpayload', action.payload);
       return {
         ...state,
-        users: [...state.users, action.payload],
+        tableParameters: {
+          ...state.tableParameters,
+          nonFilteredUsersTableData: [
+            ...state.tableParameters.nonFilteredUsersTableData,
+            action.payload,
+          ],
+        },
       };
     case UsersActions.UPDATE_USER:
-      console.log(
-        'action.payload.updatedUserInformations',
-        action.payload.updatedUserInformations
-      );
       return {
         ...state,
         tableParameters: {
