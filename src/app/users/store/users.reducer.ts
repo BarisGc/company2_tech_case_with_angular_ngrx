@@ -148,65 +148,65 @@ const initialState: UsersState = {
       paginationLimit: 6,
       paginationOffset: 0,
       currentPage: 1,
-      tableTotalPages: 1,
+      tableTotalPages: 0,
     },
     nonFilteredUsersTableData: [
-      new Users(8, 'Salia', 'Active', 38, 'Frontend Developer', [
-        {
-          courseName: 'Javascript',
-          measuredAT: 123456789,
-          completedAT: '2021-10-26 12:15:44',
-        },
-      ]),
-      new Users(9, 'Mariam', 'Passive', 39, 'Accountant', [
-        {
-          courseName: 'Javascript',
-          measuredAT: 123456789,
-          completedAT: '2021-10-26 12:15:44',
-        },
-      ]),
-      new Users(10, 'Michael', 'Active', 30, 'Acrobat', [
-        {
-          courseName: 'Javascript',
-          measuredAT: 123456789,
-          completedAT: '2021-10-26 12:15:44',
-        },
-      ]),
-      new Users(11, 'Brad', 'Active', 31, 'Baker', [
-        {
-          courseName: 'Javascript',
-          measuredAT: 123456789,
-          completedAT: '2021-10-26 12:15:44',
-        },
-      ]),
-      new Users(12, 'Janet', 'Passive', 32, 'Engineer', [
-        {
-          courseName: 'Javascript',
-          measuredAT: 123456789,
-          completedAT: '2021-10-26 12:15:44',
-        },
-      ]),
-      new Users(13, 'Tulip', 'Active', 33, 'Cashier', [
-        {
-          courseName: 'Javascript',
-          measuredAT: 123456789,
-          completedAT: '2021-10-26 12:15:44',
-        },
-      ]),
-      new Users(14, 'Bloom', 'Passive', 34, 'Jeweller', [
-        {
-          courseName: 'Javascript',
-          measuredAT: 123456789,
-          completedAT: '2021-10-26 12:15:44',
-        },
-      ]),
-      new Users(15, 'Kareem', 'Passive', 36, 'Jockey', [
-        {
-          courseName: 'Javascript',
-          measuredAT: 123456789,
-          completedAT: '2021-10-26 12:15:44',
-        },
-      ]),
+      // new Users(8, 'Salia', 'Active', 38, 'Frontend Developer', [
+      //   {
+      //     courseName: 'Javascript',
+      //     measuredAT: 123456789,
+      //     completedAT: '2021-10-26 12:15:44',
+      //   },
+      // ]),
+      // new Users(9, 'Mariam', 'Passive', 39, 'Accountant', [
+      //   {
+      //     courseName: 'Javascript',
+      //     measuredAT: 123456789,
+      //     completedAT: '2021-10-26 12:15:44',
+      //   },
+      // ]),
+      // new Users(10, 'Michael', 'Active', 30, 'Acrobat', [
+      //   {
+      //     courseName: 'Javascript',
+      //     measuredAT: 123456789,
+      //     completedAT: '2021-10-26 12:15:44',
+      //   },
+      // ]),
+      // new Users(11, 'Brad', 'Active', 31, 'Baker', [
+      //   {
+      //     courseName: 'Javascript',
+      //     measuredAT: 123456789,
+      //     completedAT: '2021-10-26 12:15:44',
+      //   },
+      // ]),
+      // new Users(12, 'Janet', 'Passive', 32, 'Engineer', [
+      //   {
+      //     courseName: 'Javascript',
+      //     measuredAT: 123456789,
+      //     completedAT: '2021-10-26 12:15:44',
+      //   },
+      // ]),
+      // new Users(13, 'Tulip', 'Active', 33, 'Cashier', [
+      //   {
+      //     courseName: 'Javascript',
+      //     measuredAT: 123456789,
+      //     completedAT: '2021-10-26 12:15:44',
+      //   },
+      // ]),
+      // new Users(14, 'Bloom', 'Passive', 34, 'Jeweller', [
+      //   {
+      //     courseName: 'Javascript',
+      //     measuredAT: 123456789,
+      //     completedAT: '2021-10-26 12:15:44',
+      //   },
+      // ]),
+      // new Users(15, 'Kareem', 'Passive', 36, 'Jockey', [
+      //   {
+      //     courseName: 'Javascript',
+      //     measuredAT: 123456789,
+      //     completedAT: '2021-10-26 12:15:44',
+      //   },
+      // ]),
     ],
   },
 };
@@ -222,23 +222,12 @@ export function usersReducer(
         tableParameters: {
           ...state.tableParameters,
           nonFilteredUsersTableData: [...action.payload],
-        },
-      };
-    case UsersActions.SET_TABLEPAGINATIONCOUNTS:
-      // Calculate tableTotalPages
-      let calculateTableTotalPages = () => {
-        return Math.ceil(
-          state.tableParameters.nonFilteredUsersTableData.length /
-            state.tableParameters.tablePaginationInfo.paginationLimit
-        );
-      };
-      return {
-        ...state,
-        tableParameters: {
-          ...state.tableParameters,
           tablePaginationInfo: {
             ...state.tableParameters.tablePaginationInfo,
-            tableTotalPages: calculateTableTotalPages(),
+            tableTotalPages: Math.ceil(
+              action.payload.length /
+                state.tableParameters.tablePaginationInfo.paginationLimit
+            ),
           },
         },
       };
@@ -251,22 +240,25 @@ export function usersReducer(
           tablePaginationInfo: {
             ...state.tableParameters.tablePaginationInfo,
             currentPage: action.payload,
-          },
-        },
-      };
-    case UsersActions.UPDATE_TABLEPAGEOFFSET:
-      return {
-        ...state,
-        tableParameters: {
-          ...state.tableParameters,
-          tablePaginationInfo: {
-            ...state.tableParameters.tablePaginationInfo,
             paginationOffset:
-              (state.tableParameters.tablePaginationInfo.currentPage - 1) *
+              (action.payload - 1) *
               state.tableParameters.tablePaginationInfo.paginationLimit,
           },
         },
       };
+    // case UsersActions.UPDATE_TABLEPAGEOFFSET:
+    //   return {
+    //     ...state,
+    //     tableParameters: {
+    //       ...state.tableParameters,
+    //       tablePaginationInfo: {
+    //         ...state.tableParameters.tablePaginationInfo,
+    //         paginationOffset:
+    //           (state.tableParameters.tablePaginationInfo.currentPage - 1) *
+    //           state.tableParameters.tablePaginationInfo.paginationLimit,
+    //       },
+    //     },
+    //   };
     case UsersActions.FILTERING_SEARCHED_USERS:
       return {
         ...state,
@@ -290,13 +282,18 @@ export function usersReducer(
         },
       };
     case UsersActions.lIMITING_TABLEPAGEROWCOUNT:
+      console.log('usersactionlimitingreducer', typeof action.payload);
       return {
         ...state,
         tableParameters: {
           ...state.tableParameters,
           tablePaginationInfo: {
             ...state.tableParameters.tablePaginationInfo,
-            paginationLimit: action.payload,
+            paginationLimit: Number(action.payload),
+            tableTotalPages: Math.ceil(
+              state.tableParameters.nonFilteredUsersTableData.length /
+                Number(action.payload)
+            ),
           },
         },
       };
@@ -309,6 +306,11 @@ export function usersReducer(
             ...state.tableParameters.filterTypes,
             searchName: '',
             userStatusFilter: '',
+          },
+          tablePaginationInfo: {
+            ...state.tableParameters.tablePaginationInfo,
+            paginationLimit:
+              state.tableParameters.tablePaginationInfo.defaultPaginationLimit,
           },
         },
       };
@@ -337,7 +339,13 @@ export function usersReducer(
     case UsersActions.DELETE_USER:
       return {
         ...state,
-        users: state.users.filter((user) => user.userID !== action.payload),
+        tableParameters: {
+          ...state.tableParameters,
+          nonFilteredUsersTableData:
+            state.tableParameters.nonFilteredUsersTableData.filter(
+              (user) => user.userID !== action.payload
+            ),
+        },
       };
 
     default:

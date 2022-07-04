@@ -57,7 +57,9 @@ export class FilteringUserStatuses implements Action {
 
 export class LimitingTablePageRowCount implements Action {
   readonly type = lIMITING_TABLEPAGEROWCOUNT;
-  constructor(public payload: number) {}
+  constructor(public payload: number) {
+    console.log('LimitingTablePageRowCountactions', typeof payload);
+  }
 }
 
 export class ClearTableFilters implements Action {

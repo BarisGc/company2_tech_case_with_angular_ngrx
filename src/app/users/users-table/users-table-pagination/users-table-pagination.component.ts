@@ -27,6 +27,7 @@ export class UsersTablePaginationComponent implements OnInit, OnDestroy {
         .select('users')
         .pipe(map((usersState) => usersState.tableParameters))
         .subscribe((newTableParameters) => {
+          console.log('newTableParameters', newTableParameters);
           this.totalPagesArr = new Array(
             newTableParameters.tablePaginationInfo.tableTotalPages
           );
@@ -35,6 +36,9 @@ export class UsersTablePaginationComponent implements OnInit, OnDestroy {
           );
 
           this.activePage = newTableParameters.tablePaginationInfo.currentPage;
+          console.log('this.activePage', this.activePage);
+          console.log('this.totalPagesArr', this.totalPagesArr);
+          console.log('this.tablePageLength', this.tablePageLength);
         });
   }
 
@@ -64,7 +68,7 @@ export class UsersTablePaginationComponent implements OnInit, OnDestroy {
 
   handleUserCurrentPage = (pageNumber: number) => {
     this.store.dispatch(new UsersActions.ChangeTableCurrentPage(pageNumber));
-    this.store.dispatch(new UsersActions.UpdateTablePageOffset());
+    // this.store.dispatch(new UsersActions.UpdateTablePageOffset());
     // this.userService.updateTablePaginationInfoCurrentPage(pageNumber);
     // this.userService.updateTablePaginationInfoOffset();
     // this.userService.updateFilteredUsersTableData();

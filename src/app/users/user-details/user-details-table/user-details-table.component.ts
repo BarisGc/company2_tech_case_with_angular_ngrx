@@ -14,9 +14,9 @@ import * as fromApp from '../../../appStore/app.reducer';
 export class UserDetailsTableComponent implements OnInit {
   userDetails?: Users;
   ID!: number;
-
   constructor(
     // private usersService: UsersService,
+    private router: Router,
     private route: ActivatedRoute,
     private store: Store<fromApp.AppState>
   ) {}

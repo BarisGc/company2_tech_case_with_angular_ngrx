@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -11,10 +11,11 @@ import * as UsersActions from '../store/users.actions';
   templateUrl: './users-options-bar.component.html',
   styleUrls: ['./users-options-bar.component.css'],
 })
-export class UsersOptionsBarComponent implements OnInit {
+export class UsersOptionsBarComponent implements OnInit, OnDestroy {
   searchValue: string | null = null;
-  userPageLimitValue!: number;
+  userPageLimitValue!: number | null;
   defaultTablePageRowCount!: number;
+  usersOptionBarSub!: Subscription;
   constructor(
     // private userservice: UsersService,
     private router: Router,
@@ -23,15 +24,16 @@ export class UsersOptionsBarComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.defaultTablePageRowCount = this.store
+    this.usersOptionBarSub = this.store
       .select('users')
-      .pipe(
-        map(
-          (usersState) =>
-            usersState.tableParameters.tablePaginationInfo
-              .defaultPaginationLimit
-        )
-      );
+      .subscribe((usersState) => {
+        this.defaultTablePageRowCount =
+          usersState.tableParameters.tablePaginationInfo.defaultPaginationLimit;
+        console.log(
+          'ngoninit',
+          usersState.tableParameters.tablePaginationInfo.defaultPaginationLimit
+        );
+      });
   }
 
   handleSearchName = (event: any) => {
@@ -49,17 +51,26 @@ export class UsersOptionsBarComponent implements OnInit {
     // this.userservice.calculateTableTotalPages();
     // this.userservice.updateFilteredUsersTableData();
 
-    if (
-      (event.target.value =
-        '' || event.target.value == null || event.target.value == 0)
-    ) {
+    if (event.target.value == null || event.target.value == 0) {
+      console.log(
+        'handleUserPageLimitdefault',
+        typeof this.defaultTablePageRowCount
+      );
+      console.log('handleUserPageLimitevent', typeof event.target.value);
       this.store.dispatch(
         new UsersActions.LimitingTablePageRowCount(
           this.defaultTablePageRowCount
         )
       );
     } else {
-      new UsersActions.LimitingTablePageRowCount(event.target.value);
+      console.log(
+        'handleUserPageLimitdefault',
+        typeof this.defaultTablePageRowCount
+      );
+      console.log('handleUserPageLimitevent', typeof event.target.value);
+      this.store.dispatch(
+        new UsersActions.LimitingTablePageRowCount(event.target.value)
+      );
     }
   };
 
@@ -73,7 +84,8 @@ export class UsersOptionsBarComponent implements OnInit {
 
   handleClearFilters = () => {
     this.searchValue = null;
-    this.userPageLimitValue = 0;
+    this.userPageLimitValue = null;
+    this.store.dispatch(new UsersActions.ClearTableFilters());
     // this.userservice.updateSearchName('');
     // this.userservice.updateUserStatusFilter('');
     // this.userservice.updateTablePaginationInfoPaginationLimit(
@@ -94,5 +106,9 @@ export class UsersOptionsBarComponent implements OnInit {
 
   onNewUser() {
     this.router.navigate(['new'], { relativeTo: this.route });
+  }
+
+  ngOnDestroy(): void {
+    this.usersOptionBarSub.unsubscribe();
   }
 }

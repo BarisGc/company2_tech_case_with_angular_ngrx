@@ -40,4 +40,7 @@ export class UserDetailsHeaderComponent implements OnInit {
         });
     });
   }
+  closeDetails() {
+    this.router.navigate(['/']);
+  }
 }

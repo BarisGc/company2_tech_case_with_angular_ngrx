@@ -1,10 +1,16 @@
 <div class="col-12 d-flex justify-content-center bg-dark text-white py-3">
   <h1 class="text-center">
     User
-    <span class="badge bg-danger me-1">{{ userDetails?.userName }}</span>
+    <span class="badge bg-primary me-1">{{ userDetails?.userName }}</span>
     <span class="badge bg-light text-dark me-1">{{
       userDetails?.userAge
     }}</span>
-    <span class="badge bg-secondary">{{ userDetails?.userJob }}</span>
+    <span class="badge bg-secondary me-1">{{ userDetails?.userJob }}</span>
+    <span class="badge bg-danger"
+      ><button
+        class="btn-close btn-close-white text-white"
+        (click)="closeDetails()"
+      ></button
+    ></span>
   </h1>
 </div>
