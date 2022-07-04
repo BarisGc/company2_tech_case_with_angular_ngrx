@@ -222,25 +222,10 @@ export function usersReducer(
         tableParameters: {
           ...state.tableParameters,
           nonFilteredUsersTableData: [...action.payload],
-          // tablePaginationInfo: {
-          //   ...state.tableParameters.tablePaginationInfo,
-          //   tableTotalPages: Math.ceil(
-          //     action.payload.length /
-          //       state.tableParameters.tablePaginationInfo.paginationLimit
-          //   ),
-          // },
-        },
-      };
-
-    case UsersActions.SET_TABLEPAGINATIONCOUNTS:
-      return {
-        ...state,
-        tableParameters: {
-          ...state.tableParameters,
           tablePaginationInfo: {
             ...state.tableParameters.tablePaginationInfo,
             tableTotalPages: Math.ceil(
-              state.tableParameters.nonFilteredUsersTableData.length /
+              action.payload.length /
                 state.tableParameters.tablePaginationInfo.paginationLimit
             ),
           },
@@ -338,6 +323,13 @@ export function usersReducer(
             ...state.tableParameters.nonFilteredUsersTableData,
             action.payload,
           ],
+          tablePaginationInfo: {
+            ...state.tableParameters.tablePaginationInfo,
+            tableTotalPages: Math.ceil(
+              (state.tableParameters.nonFilteredUsersTableData.length + 1) /
+                state.tableParameters.tablePaginationInfo.paginationLimit
+            ),
+          },
         },
       };
     case UsersActions.UPDATE_USER:
@@ -370,6 +362,13 @@ export function usersReducer(
             state.tableParameters.nonFilteredUsersTableData.filter(
               (user) => user.userID !== action.payload
             ),
+          tablePaginationInfo: {
+            ...state.tableParameters.tablePaginationInfo,
+            tableTotalPages: Math.ceil(
+              (state.tableParameters.nonFilteredUsersTableData.length - 1) /
+                state.tableParameters.tablePaginationInfo.paginationLimit
+            ),
+          },
         },
       };
 
