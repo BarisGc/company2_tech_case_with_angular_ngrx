@@ -23,20 +23,34 @@ export class UsersTablePaginationComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.tableParametersChangedSub =
       // this.userService.tableParametersChanged.subscribe(
-      this.store
-        .select('users')
-        .pipe(map((usersState) => usersState.tableParameters))
-        .subscribe((newTableParameters) => {
-          console.log('pagination çalışıyor mu?');
-          this.totalPagesArr = new Array(
-            newTableParameters.tablePaginationInfo.tableTotalPages
-          );
-          this.tablePageLength = Math.ceil(
-            newTableParameters.tablePaginationInfo.tableTotalPages
-          );
+      this.store.select('users').subscribe((usersState) => {
+        console.log('pagination çalışıyor mu?');
+        console.log(
+          'usersState1',
+          usersState.tableParameters.tablePaginationInfo
+        );
+        console.log(
+          'usersState2',
+          new Array(
+            usersState.tableParameters.tablePaginationInfo.tableTotalPages
+          )
+        );
+        console.log(
+          'usersState3',
+          Math.ceil(
+            usersState.tableParameters.tablePaginationInfo.tableTotalPages
+          )
+        );
+        this.totalPagesArr = new Array(
+          usersState.tableParameters.tablePaginationInfo.tableTotalPages
+        );
+        this.tablePageLength = Math.ceil(
+          usersState.tableParameters.tablePaginationInfo.tableTotalPages
+        );
 
-          this.activePage = newTableParameters.tablePaginationInfo.currentPage;
-        });
+        this.activePage =
+          usersState.tableParameters.tablePaginationInfo.currentPage;
+      });
   }
 
   // ngOnInit(): void {

@@ -310,11 +310,14 @@ export function usersReducer(
             ...state.tableParameters.tablePaginationInfo,
             paginationLimit:
               state.tableParameters.tablePaginationInfo.defaultPaginationLimit,
+            tableTotalPages: Math.ceil(
+              state.tableParameters.nonFilteredUsersTableData.length /
+                state.tableParameters.tablePaginationInfo.defaultPaginationLimit
+            ),
           },
         },
       };
     case UsersActions.ADD_USER:
-      console.log('adduser,actionpayload', action.payload);
       return {
         ...state,
         tableParameters: {

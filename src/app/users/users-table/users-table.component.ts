@@ -14,6 +14,7 @@ import * as SelectedUsersPoolActions from '../../selected-users-pool/store/selec
 })
 export class UsersTableComponent implements OnInit, OnDestroy {
   filteredUsersTableData: Users[] | undefined;
+  private nonFilteredUsersData: Users[] | undefined;
   private tableParametersChangedSub!: Subscription;
 
   constructor(
@@ -31,6 +32,8 @@ export class UsersTableComponent implements OnInit, OnDestroy {
         .select('users')
         .pipe(map((usersState) => usersState.tableParameters))
         .subscribe((newTableParameters) => {
+          this.nonFilteredUsersData =
+            newTableParameters.nonFilteredUsersTableData;
           let filteredUsers = () => {
             if (
               newTableParameters.filterTypes.searchName === '' &&
@@ -103,20 +106,18 @@ export class UsersTableComponent implements OnInit, OnDestroy {
   }
 
   onAddToSelectedUsersPool(userID: number) {
-    this.usersTableSubs = this.store.select('users').subscribe((usersState) => {
-      let findUser = usersState.tableParameters.nonFilteredUsersTableData!.find(
-        (user: Users) => user.userID === userID
-      );
-      let formattedFoundedUser = {
-        userID: findUser!.userID,
-        userName: findUser!.userName,
-        userTeam: 'none',
-        userIsRegistered: true,
-      };
-      this.store.dispatch(
-        new SelectedUsersPoolActions.AddRegisteredUser(formattedFoundedUser)
-      );
-    });
+    let findUser = this.nonFilteredUsersData!.find(
+      (user: Users) => user.userID === userID
+    );
+    let formattedFoundedUser = {
+      userID: findUser!.userID,
+      userName: findUser!.userName,
+      userTeam: 'none',
+      userIsRegistered: true,
+    };
+    this.store.dispatch(
+      new SelectedUsersPoolActions.AddRegisteredUser(formattedFoundedUser)
+    );
   }
 
   // return new SelectedUsersPoolActions.AddRegisteredUser(
@@ -156,6 +157,5 @@ export class UsersTableComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.tableParametersChangedSub.unsubscribe();
-    this.usersTableSubs.unsubscribe();
   }
 }
